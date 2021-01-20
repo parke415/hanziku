@@ -10,6 +10,20 @@ export async function signUp(userData) {
     throw new Error('Invalid Sign Up');
   }
 }
+export async function login(credentials) {
+  try {
+    const token = await usersAPI.login(credentials);
+    // Persist the token
+    localStorage.setItem('token', token);
+    return getUser();
+  } catch {
+    throw new Error('Invalid Login');
+  }
+}
+
+export function logOut() {
+  localStorage.removeItem('token');
+}
 
 export function getToken() {
   // getItem returns null if there's no string
