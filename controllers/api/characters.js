@@ -3,11 +3,11 @@ const Character = require('../../models/character');
 module.exports = {
   index,
   show,
-  new: newChar,
+  new: newOne,
   create,
   edit,
   update,
-  delete: deleteChar,
+  delete: deleteOne,
   learnToggle,
 };
 
@@ -23,7 +23,7 @@ function show(req, res) {
   Character.findById(req.params.id, (err, character) => res.render(`characters/show`, {title: 'Character Details', character, user: req.user._id}));
 }
 
-function newChar(req, res) {
+function newOne(req, res) {
   res.render(`characters/new`, {title: 'New Character'});
 }
 
@@ -57,7 +57,7 @@ function update(req, res) {
   });
 }
 
-function deleteChar(req, res) {
+function deleteOne(req, res) {
   Character.findById(req.params.id, (err, character) => {
     if (!character.user.equals(req.user._id)) return res.redirect(`/characters/${character._id}`);
     character.remove();
