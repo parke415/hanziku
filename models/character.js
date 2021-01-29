@@ -17,7 +17,7 @@ const readingSchema = new Schema({
   sound: {type: String, required: true},
   language: {type: String, enum: ['Mandarin', 'Cantonese', 'Chinese', 'Japanese', 'Korean', 'Vietnamese'], required: true},
   register: {type: String, enum: ['colloquial', 'literary', 'native', 'Sinoxenic']},
-  definitions: {type: String}
+  definitions: {type: Array}
 });
 
 const characterSchema = new Schema({
