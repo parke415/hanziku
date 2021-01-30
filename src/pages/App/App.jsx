@@ -20,7 +20,11 @@ export default function App() {
       const characters = await charactersAPI.getAll();
       setCharacters(characters);
     }
-    getCharacters();
+    if (user) {
+      getCharacters();
+    } else {
+      setCharacters([]);
+    }
   }, [user]);
 
   useEffect(() => {
@@ -37,10 +41,10 @@ export default function App() {
       { user ?
           <>
             <NavBar user={user} setUser={setUser} />
-            <Switch>
-              <Route path="/characters">
+            <Route path="/characters">
                 <CharacterListPage characters={characters} />
-              </Route>
+            </Route>
+            <Switch>
               <Route path="/characters/new">
                 <NewCharacterPage addCharacter={handleAddCharacter}/>
               </Route>
