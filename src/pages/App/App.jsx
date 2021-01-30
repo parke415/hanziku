@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { Route, Switch, Redirect } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { Route, Switch, Redirect, useHistory } from 'react-router-dom';
 import { getUser } from '../../utilities/users-service';
 import './App.css';
 import * as charactersAPI from '../../utilities/characters-api';
@@ -21,14 +21,14 @@ export default function App() {
       setCharacters(characters);
     }
     getCharacters();
-  }, []);
+  }, [user]);
 
   useEffect(() => {
     history.push("/")
   }, [characters, history])
 
   async function handleAddCharacter(newCharacterData) {
-    const newCharacter = await yuppiesAPI.create(newCharacterData);
+    const newCharacter = await charactersAPI.create(newCharacterData);
     setCharacters([...characters, newCharacter]);
   }
 
@@ -42,9 +42,12 @@ export default function App() {
                 <CharacterListPage characters={characters} />
               </Route>
               <Route path="/characters/new">
-                <NewCharacterPage />
+                <NewCharacterPage addCharacter={handleAddCharacter}/>
               </Route>
-              <Redirect to="/orders" />
+              <Route path="/details">
+                <CharacterDetailPage />
+              </Route>
+              <Redirect to="/characters" />
             </Switch>
           </>
         :

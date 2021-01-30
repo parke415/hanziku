@@ -25,9 +25,9 @@ app.use(require('./config/checkToken'));
 // Put API routes here, before the "catch all" route
 app.use('/api/users', require('./routes/api/users'));
 app.use('/api/characters', require('./routes/api/characters'));
-app.use('/api/characters', require('./routes/api/components'));
-app.use('/api/characters', require('./routes/api/definitions'));
-app.use('/api/characters', require('./routes/api/readings'));
+// app.use('/api/characters', require('./routes/api/components'));
+// app.use('/api/characters', require('./routes/api/definitions'));
+// app.use('/api/characters', require('./routes/api/readings'));
 
 // The following "catch all" route (note the *) is necessary
 // to return the index.html on all non-AJAX requests

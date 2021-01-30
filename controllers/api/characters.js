@@ -3,78 +3,93 @@ const Character = require('../../models/character');
 module.exports = {
   index,
   show,
-  new: newOne,
+  // new: newOne,
   create,
-  edit,
-  update,
-  delete: deleteOne,
-  learnToggle,
+  // edit,
+  // update,
+  // delete: deleteOne,
+  // learnToggle,
 };
 
-function index(req, res) {
-  Character.find({user: req.user._id}, (err, characters) => {
-    let learnedChars = 0;
-    characters.forEach(character => {if (character.learned) learnedChars++});
-    res.render(`characters/index`, {title: 'Character List', characters, learnedChars});
-  });
+async function index(req, res) {
+  const characters = await Character.find({});
+  res.json(characters);
 }
 
-function show(req, res) {
-  Character.findById(req.params.id, (err, character) => res.render(`characters/show`, {title: 'Character Details', character, user: req.user._id}));
+// function index(req, res) {
+//   Character.find({user: req.user._id}, (err, characters) => {
+//     let learnedChars = 0;
+//     characters.forEach(character => {if (character.learned) learnedChars++});
+//     res.render(`characters/index`, {title: 'Character List', characters, learnedChars});
+//   });
+// }
+
+async function show(req, res) {
+  const character = await Character.findById(req.params.id);
+  res.json(character);
 }
 
-function newOne(req, res) {
-  res.render(`characters/new`, {title: 'New Character'});
+// function show(req, res) {
+//   Character.findById(req.params.id, (err, character) => res.render(`characters/show`, {title: 'Character Details', character, user: req.user._id}));
+// }
+
+async function create(req, res) {
+  const character = await Character.create(req.body);
+  res.json(character);
 }
 
-function create(req, res) {
-  req.body.user = req.user._id;
-  const character = new Character(req.body);
-  Character.find({user: req.user._id, glyph: character.glyph}, (err, duplicate) => {
-    if (err || duplicate.length) return res.redirect(`/characters/new`);
-    character.save(err => {
-      if (err) return res.redirect(`/characters/new`);
-      res.redirect(`/characters/${character._id}`);
-    });
-  });
-}
+// function newOne(req, res) {
+//   res.render(`characters/new`, {title: 'New Character'});
+// }
 
-function edit(req, res) {
-  Character.findById(req.params.id, (err, character) => {
-    if (!character.user.equals(req.user._id)) return res.redirect(`/characters/${character._id}`);
-    res.render(`characters/edit`, {title: 'Edit Character', character});
-  });
-}
+// function create(req, res) {
+//   req.body.user = req.user._id;
+//   const character = new Character(req.body);
+//   Character.find({user: req.user._id, glyph: character.glyph}, (err, duplicate) => {
+//     if (err || duplicate.length) return res.redirect(`/characters/new`);
+//     character.save(err => {
+//       if (err) return res.redirect(`/characters/new`);
+//       res.redirect(`/characters/${character._id}`);
+//     });
+//   });
+// }
 
-function update(req, res) {
-  Character.findById(req.params.id, (err, character) => {
-    if (!character.user.equals(req.user._id)) return res.redirect(`/characters/${character._id}`);
-    Object.assign(character, req.body);
-    character.save(err => {
-      if (err) return res.redirect(`/characters/new`);
-      res.redirect(`/characters/${character._id}`);
-    });
-  });
-}
+// function edit(req, res) {
+//   Character.findById(req.params.id, (err, character) => {
+//     if (!character.user.equals(req.user._id)) return res.redirect(`/characters/${character._id}`);
+//     res.render(`characters/edit`, {title: 'Edit Character', character});
+//   });
+// }
 
-function deleteOne(req, res) {
-  Character.findById(req.params.id, (err, character) => {
-    if (!character.user.equals(req.user._id)) return res.redirect(`/characters/${character._id}`);
-    character.remove();
-    res.redirect(`/characters`);
-  });
-}
+// function update(req, res) {
+//   Character.findById(req.params.id, (err, character) => {
+//     if (!character.user.equals(req.user._id)) return res.redirect(`/characters/${character._id}`);
+//     Object.assign(character, req.body);
+//     character.save(err => {
+//       if (err) return res.redirect(`/characters/new`);
+//       res.redirect(`/characters/${character._id}`);
+//     });
+//   });
+// }
 
-function learnToggle(req, res) {
-  Character.findById(req.params.id, (err, character) => {
-    if (!character.user.equals(req.user._id)) return res.redirect(`/characters/${character._id}`);
-    character.learned = !character.learned;
-    character.save(err => {
-      if (character.learned) {
-        res.redirect(`/characters`);
-      } else {
-        res.redirect(`/characters/${character._id}`);
-      }
-    });
-  });
-}
+// function deleteOne(req, res) {
+//   Character.findById(req.params.id, (err, character) => {
+//     if (!character.user.equals(req.user._id)) return res.redirect(`/characters/${character._id}`);
+//     character.remove();
+//     res.redirect(`/characters`);
+//   });
+// }
+
+// function learnToggle(req, res) {
+//   Character.findById(req.params.id, (err, character) => {
+//     if (!character.user.equals(req.user._id)) return res.redirect(`/characters/${character._id}`);
+//     character.learned = !character.learned;
+//     character.save(err => {
+//       if (character.learned) {
+//         res.redirect(`/characters`);
+//       } else {
+//         res.redirect(`/characters/${character._id}`);
+//       }
+//     });
+//   });
+// }
