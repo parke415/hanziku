@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Route, Switch, Redirect, useHistory } from 'react-router-dom';
 import { getUser } from '../../utilities/users-service';
 import './App.css';
+import banner from '../../images/hzk-banner.svg';
 import * as charactersAPI from '../../utilities/characters-api';
 import AuthPage from '../AuthPage/AuthPage';
 import NavBar from '../../components/NavBar/NavBar';
@@ -40,13 +41,25 @@ export default function App() {
     <main className="App">
       { user ?
           <>
-            <NavBar user={user} setUser={setUser} />
-            <Route path="/characters">
-                <CharacterListPage characters={characters} />
-            </Route>
+            <NavBar user={user} setUser={setUser} characters={characters} />
             <Switch>
-              <Route path="/characters/new">
-                <NewCharacterPage addCharacter={handleAddCharacter}/>
+              <Route path="/characters/all">
+                <CharacterListPage characters={characters} />
+              </Route>
+              <Route path="/characters/learn">
+                <CharacterListPage characters={characters.filter(character => !character.learned)} />
+              </Route>
+              <Route path="/characters/review">
+                <CharacterListPage characters={characters.filter(character => character.learned)} />
+              </Route>
+            </Switch>
+            <br />
+            <Switch>
+              <Route path="/characters">
+                <img className= "banner" src={banner} alt="Banner" />
+              </Route>
+              <Route path="/new">
+                <NewCharacterPage handleAddCharacter={handleAddCharacter}/>
               </Route>
               <Route path="/details">
                 <CharacterDetailPage />
