@@ -37,6 +37,12 @@ export default function App() {
     setCharacters([...characters, newCharacter]);
   }
 
+  async function handleUpdateCharacter(updatedCharacterData) {
+    const updatedCharacter = await charactersAPI.update(updatedCharacterData);
+    const newCharacters = characters.map(character => character._id === updatedCharacter._id ? updatedCharacter : character);
+    setCharacters(newCharacters);
+  }
+
   return (
     <main className="App">
       { user ?
@@ -62,7 +68,7 @@ export default function App() {
                 <NewCharacterPage handleAddCharacter={handleAddCharacter}/>
               </Route>
               <Route path="/details">
-                <CharacterDetailPage />
+                <CharacterDetailPage handleUpdateCharacter={handleUpdateCharacter} />
               </Route>
               <Redirect to="/characters" />
             </Switch>
