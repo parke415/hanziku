@@ -15,19 +15,19 @@ app.use(logger('dev'));
 app.use(express.json());
 // Configure both serve-favicon & static middleware
 // to serve from the production 'build' folder
-app.use(favicon(path.join(__dirname, 'build', 'favicon.ico')));
+app.use(favicon(path.join(__dirname, 'build', 'hzk-icon.png')));
 app.use(express.static(path.join(__dirname, 'build')));
 
-// Middleware to verify a token and assign the user object from JWT
-// to a req.user property
+// Middleware to verify a token and assign the user object of payload
+// from JWT to a req.user property
 app.use(require('./config/checkToken'));
 
 // Put API routes here, before the "catch all" route
 app.use('/api/users', require('./routes/api/users'));
-app.use('/api/characters', require('./routes/api/characters'));
-// app.use('/api/characters', require('./routes/api/components'));
-// app.use('/api/characters', require('./routes/api/definitions'));
-// app.use('/api/characters', require('./routes/api/readings'));
+
+// Protect the api routes below from anonymous users
+const ensureLoggedIn = require('./config/ensureLoggedIn');
+app.use('/api/characters', ensureLoggedIn, require('./routes/api/characters'));
 
 // The following "catch all" route (note the *) is necessary
 // to return the index.html on all non-AJAX requests

@@ -1,19 +1,10 @@
-import './NewCharacterPage.css';
+import './EditCharacterPage.css';
 import { useState, useEffect, useRef } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 
 export default function NewCharacterPage({ handleAddCharacter }) {
   const [formValidity, setFormValidity] = useState(true);
-  const [formData, setFormData] = useState({
-    glyph: '',
-    strokes: '0',
-    variants: '',
-    definition: '',
-    readingM: '',
-    readingC: '',
-    readingSK: '',
-    readingSJ: '',
-    readingJ: ''
-  });
+  const [formData, setFormData] = useState(useLocation().state.character);
 
   const formRef = useRef();
 
@@ -30,7 +21,7 @@ export default function NewCharacterPage({ handleAddCharacter }) {
 
   return (
     <>
-      <h1>New Character</h1>
+      <h1>Edit Character</h1>
       <form ref={formRef} onSubmit={handleSubmit} autoComplete="off">
         <div>
           <label>Character</label>
@@ -68,7 +59,7 @@ export default function NewCharacterPage({ handleAddCharacter }) {
           <label>Japanese</label>
           <input onChange={handleChange} name="readingJ" value={formData.readingJ} />
         </div>
-        <button className="btn" type="submit" disabled={formValidity}>Add Entry</button>
+        <button className="btn" type="submit" disabled={formValidity}>Update Entry</button>
       </form>
     </>
   );

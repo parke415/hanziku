@@ -1,3 +1,5 @@
+// import sendRequest from './send-request';
+
 const BASE_URL = '/api/characters';
 
 export function getAll() {

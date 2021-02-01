@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Route, Switch, Redirect, useHistory } from 'react-router-dom';
+import { Route, Switch, Redirect } from 'react-router-dom';
 import { getUser } from '../../utilities/users-service';
 import './App.css';
 import banner from '../../images/hzk-banner.svg';
@@ -9,12 +9,11 @@ import NavBar from '../../components/NavBar/NavBar';
 import CharacterListPage from '../../pages/CharacterListPage/CharacterListPage';
 import CharacterDetailPage from '../../pages/CharacterDetailPage/CharacterDetailPage';
 import NewCharacterPage from '../../pages/NewCharacterPage/NewCharacterPage';
+import EditCharacterPage from '../../pages/EditCharacterPage/EditCharacterPage';
 
 export default function App() {
   const [user, setUser] = useState(getUser());
   const [characters, setCharacters] = useState([]);
-
-  const history = useHistory();
 
   useEffect(() => {
     async function getCharacters() {
@@ -28,10 +27,6 @@ export default function App() {
     }
   }, [user]);
 
-  useEffect(() => {
-    history.push("/")
-  }, [characters, history])
-
   async function handleAddCharacter(newCharacterData) {
     const newCharacter = await charactersAPI.create(newCharacterData);
     setCharacters([...characters, newCharacter]);
@@ -41,6 +36,11 @@ export default function App() {
     const updatedCharacter = await charactersAPI.update(updatedCharacterData);
     const newCharacters = characters.map(character => character._id === updatedCharacter._id ? updatedCharacter : character);
     setCharacters(newCharacters);
+  }
+
+  async function handleDeleteCharacter(characterID) {
+    await charactersAPI.deleteOne(characterID);
+    setCharacters(characters.filter(character => character._id !== characterID));
   }
 
   return (
@@ -61,14 +61,17 @@ export default function App() {
             </Switch>
             <br />
             <Switch>
-              <Route path="/characters">
+              <Route path="/characters/banner">
                 <img className= "banner" src={banner} alt="Banner" />
               </Route>
-              <Route path="/new">
-                <NewCharacterPage handleAddCharacter={handleAddCharacter}/>
+              <Route path="/details/:id">
+                <CharacterDetailPage characters={characters} handleUpdateCharacter={handleUpdateCharacter} handleDeleteCharacter={handleDeleteCharacter} />
               </Route>
-              <Route path="/details">
-                <CharacterDetailPage handleUpdateCharacter={handleUpdateCharacter} />
+              <Route path="/new">
+                <NewCharacterPage handleAddCharacter={handleAddCharacter} />
+              </Route>
+              <Route path="/edit">
+                <EditCharacterPage handleUpdateCharacter={handleUpdateCharacter} />
               </Route>
               <Redirect to="/characters" />
             </Switch>
