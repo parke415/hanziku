@@ -8,11 +8,11 @@ const Character = require('./models/character');
   await Character.deleteMany({});
   const characters = await Character.create([
     {glyph: '氣', learned: false, strokes: 10, variants: '気气', definition: 'breath; gas',
-    readingM: 'qi4', readingC: 'hei3', readingSK: 'ki', readingSJ: 'ki', readingJ: 'iki', components: []},
+    readingM: 'qi4', readingC: 'hei3', readingSK: 'ki', readingSJ: 'ki', readingJ: 'iki', components: [], user: null},
     {glyph: '月', learned: true, strokes: 4, variants: '', definition: 'moon; month',
-    readingM: 'yue4', readingC: 'jyut6', readingSK: 'weol', readingSJ: 'getsu, gatsu', readingJ: 'tsuki', components: []},
+    readingM: 'yue4', readingC: 'jyut6', readingSK: 'weol', readingSJ: 'getsu, gatsu', readingJ: 'tsuki', components: [], user: null},
     {glyph: '員', learned: false, strokes: 10, variants: '貟', definition: 'member',
-    readingM: 'yuan2', readingC: 'jyun4', readingSK: 'weon', readingSJ: 'in, en', readingJ: 'kazu', components: []}
+    readingM: 'yuan2', readingC: 'jyun4', readingSK: 'weon', readingSJ: 'in, en', readingJ: 'kazu', components: [], user: null}
   ]);
 
   process.exit();

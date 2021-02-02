@@ -2,7 +2,7 @@ import './EditCharacterPage.css';
 import { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
-export default function NewCharacterPage({ handleAddCharacter }) {
+export default function EditCharacterPage({ handleUpdateCharacter }) {
   const [formValidity, setFormValidity] = useState(true);
   const [formData, setFormData] = useState(useLocation().state.character);
 
@@ -12,7 +12,7 @@ export default function NewCharacterPage({ handleAddCharacter }) {
 
   function handleSubmit(evt) {
     evt.preventDefault();
-    handleAddCharacter(formData);
+    handleUpdateCharacter(formData);
   }
 
   function handleChange(evt) {

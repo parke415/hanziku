@@ -3,93 +3,39 @@ const Character = require('../../models/character');
 module.exports = {
   index,
   show,
-  // new: newOne,
   create,
-  // edit,
-  // update,
-  // delete: deleteOne,
-  // learnToggle,
+  update,
+  delete: deleteOne,
 };
 
 async function index(req, res) {
-  const characters = await Character.find({});
+  const characters = await Character.find({user: req.user._id});
   res.json(characters);
 }
-
-// function index(req, res) {
-//   Character.find({user: req.user._id}, (err, characters) => {
-//     let learnedChars = 0;
-//     characters.forEach(character => {if (character.learned) learnedChars++});
-//     res.render(`characters/index`, {title: 'Character List', characters, learnedChars});
-//   });
-// }
 
 async function show(req, res) {
   const character = await Character.findById(req.params.id);
   res.json(character);
 }
 
-// function show(req, res) {
-//   Character.findById(req.params.id, (err, character) => res.render(`characters/show`, {title: 'Character Details', character, user: req.user._id}));
-// }
-
 async function create(req, res) {
-  const character = await Character.create(req.body);
-  res.json(character);
+  req.body.user = req.user._id;
+  const newCharacter = await Character.create(req.body);
+  Character.find({user: newCharacter.user, glyph: newCharacter.glyph}, (err, duplicate) => {
+    if (err || duplicate.length) {
+      return console.log('DUPLICATE CHARACTER');
+    } else {
+      res.json(newCharacter);
+    }
+  });
 }
 
-// function newOne(req, res) {
-//   res.render(`characters/new`, {title: 'New Character'});
-// }
+async function update(req, res) {
+  const updatedCharacter = await Character.findByIdAndUpdate(req.params.id, req.body, { new: true });
+  res.json(updatedCharacter);
+}
 
-// function create(req, res) {
-//   req.body.user = req.user._id;
-//   const character = new Character(req.body);
-//   Character.find({user: req.user._id, glyph: character.glyph}, (err, duplicate) => {
-//     if (err || duplicate.length) return res.redirect(`/characters/new`);
-//     character.save(err => {
-//       if (err) return res.redirect(`/characters/new`);
-//       res.redirect(`/characters/${character._id}`);
-//     });
-//   });
-// }
-
-// function edit(req, res) {
-//   Character.findById(req.params.id, (err, character) => {
-//     if (!character.user.equals(req.user._id)) return res.redirect(`/characters/${character._id}`);
-//     res.render(`characters/edit`, {title: 'Edit Character', character});
-//   });
-// }
-
-// function update(req, res) {
-//   Character.findById(req.params.id, (err, character) => {
-//     if (!character.user.equals(req.user._id)) return res.redirect(`/characters/${character._id}`);
-//     Object.assign(character, req.body);
-//     character.save(err => {
-//       if (err) return res.redirect(`/characters/new`);
-//       res.redirect(`/characters/${character._id}`);
-//     });
-//   });
-// }
-
-// function deleteOne(req, res) {
-//   Character.findById(req.params.id, (err, character) => {
-//     if (!character.user.equals(req.user._id)) return res.redirect(`/characters/${character._id}`);
-//     character.remove();
-//     res.redirect(`/characters`);
-//   });
-// }
-
-// function learnToggle(req, res) {
-//   Character.findById(req.params.id, (err, character) => {
-//     if (!character.user.equals(req.user._id)) return res.redirect(`/characters/${character._id}`);
-//     character.learned = !character.learned;
-//     character.save(err => {
-//       if (character.learned) {
-//         res.redirect(`/characters`);
-//       } else {
-//         res.redirect(`/characters/${character._id}`);
-//       }
-//     });
-//   });
-// }
+async function deleteOne(req, res) {
+  const deletedCharacter = await Character.findByIdAndRemove(req.params.id);
+  res.json(deletedCharacter);
+}

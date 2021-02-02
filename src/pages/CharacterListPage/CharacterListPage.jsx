@@ -7,8 +7,8 @@ export default function CharacterListPage({ characters }) {
     <>
       <br />
       <div>
-        {characters.some(character => !character.learned) &&
-          <Link className="link" to={{ pathname: '/characters/new' }}>
+        {(characters.some(character => !character.learned) || !characters.length) &&
+          <Link className="link" to={{ pathname: '/new' }}>
             <div className="tile add">＋</div>
           </Link>
         }

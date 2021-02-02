@@ -11,18 +11,18 @@ export default function NavBar({ user, setUser, characters }) {
   let learnedChars = characters.reduce((learned, character) => character.learned ? ++learned : learned, 0);
   let encouragement;
   switch (learnedChars) {
-    case learnedChars === characters.length && learnedChars:
+    case (learnedChars === characters.length && learnedChars.length) && learnedChars:
       encouragement = 'Congratulations';
       break;
     case learnedChars > (characters.length - learnedChars) && learnedChars:
       encouragement = 'Doing great';
       break;
-    case learnedChars === (characters.length - learnedChars) && learnedChars:
+    case (learnedChars === (characters.length - learnedChars) && learnedChars.length) && learnedChars:
       encouragement = 'Halfway there';
       break;
     case learnedChars < (characters.length - learnedChars) && learnedChars:
       encouragement = 'Keep going';
-      break;    
+      break;
     default:
       encouragement = 'Welcome';
   }

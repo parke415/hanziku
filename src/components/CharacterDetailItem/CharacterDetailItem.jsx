@@ -8,9 +8,7 @@ export default function CharacterDetailItem({ character, handleUpdateCharacter, 
       <br />
       <hr />
       <div
-        className={`tile ${character.learned ? 'learned' : 'learning'}`}
-        role="button"
-        tabIndex={0}
+        className={`tile ${character.learned ? 'learned' : 'learning'} toggle`}
         onClick={() => handleUpdateCharacter({...character, learned: !character.learned})}
       >{character.glyph}</div>
       <div className="subtext">(click to {character.learned ? 'unlearn' : 'learn'})</div>

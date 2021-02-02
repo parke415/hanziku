@@ -46,36 +46,34 @@ export default function App() {
   return (
     <main className="App">
       { user ?
-          <>
-            <NavBar user={user} setUser={setUser} characters={characters} />
-            <Switch>
-              <Route path="/characters/all">
-                <CharacterListPage characters={characters} />
+        <>
+          <NavBar user={user} setUser={setUser} characters={characters} />
+          <br />
+          <Switch>
+            <Route path="/characters/all">
+              <CharacterListPage characters={characters} />
+            </Route>
+            <Route path="/characters/learn">
+              <CharacterListPage characters={characters.filter(character => !character.learned)} />
               </Route>
-              <Route path="/characters/learn">
-                <CharacterListPage characters={characters.filter(character => !character.learned)} />
-              </Route>
-              <Route path="/characters/review">
-                <CharacterListPage characters={characters.filter(character => character.learned)} />
-              </Route>
-            </Switch>
-            <br />
-            <Switch>
-              <Route path="/characters/banner">
-                <img className= "banner" src={banner} alt="Banner" />
-              </Route>
-              <Route path="/details/:id">
-                <CharacterDetailPage characters={characters} handleUpdateCharacter={handleUpdateCharacter} handleDeleteCharacter={handleDeleteCharacter} />
-              </Route>
-              <Route path="/new">
-                <NewCharacterPage handleAddCharacter={handleAddCharacter} />
-              </Route>
-              <Route path="/edit">
-                <EditCharacterPage handleUpdateCharacter={handleUpdateCharacter} />
-              </Route>
-              <Redirect to="/characters" />
-            </Switch>
-          </>
+             <Route path="/characters/review">
+              <CharacterListPage characters={characters.filter(character => character.learned)} />
+            </Route>
+            <Route exact path="/characters">
+              <img className= "banner" src={banner} alt="Banner" />
+            </Route>
+            <Route path="/characters/:id">
+              <CharacterDetailPage characters={characters} handleUpdateCharacter={handleUpdateCharacter} handleDeleteCharacter={handleDeleteCharacter} />
+            </Route>
+            <Route path="/new">
+              <NewCharacterPage handleAddCharacter={handleAddCharacter} />
+            </Route>
+            <Route path="/edit">
+              <EditCharacterPage handleUpdateCharacter={handleUpdateCharacter} />
+            </Route>
+            <Redirect to="/characters" />
+          </Switch>
+        </>
         :
           <AuthPage setUser={setUser}/>
       }

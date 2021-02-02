@@ -1,30 +1,23 @@
-// import sendRequest from './send-request';
+import sendRequest from './send-request';
 
 const BASE_URL = '/api/characters';
 
 export function getAll() {
-  return fetch(BASE_URL).then(res => res.json());
+  return sendRequest(BASE_URL);
 }
 
-export function create(character) {
-  return fetch(BASE_URL, {
-    method: 'POST',
-    headers: { 'content-type': 'application/json' },
-    body: JSON.stringify(character)
-  }).then(res => res.json());
+export function getOne(characterID) {
+  return sendRequest(`${BASE_URL}/${characterID}`);
+}
+
+export function create(newCharacterData) {
+  return sendRequest(BASE_URL, 'POST', newCharacterData);
 }
 
 export function update(character) {
-  return fetch(`${BASE_URL}/${character._id}`, {
-    method: 'PUT',
-    headers: { 'content-type': 'application/json' },
-    body: JSON.stringify(character)
-  }).then(res => res.json());
+  return sendRequest(`${BASE_URL}/${character._id}`, 'PUT', character);
 }
 
 export function deleteOne(characterID) {
-  return fetch(`${BASE_URL}/${characterID}`, {
-    method: 'DELETE',
-    headers: { 'content-type': 'application/json' }
-  });
+  return sendRequest(`${BASE_URL}/${characterID}`, 'DELETE');
 }

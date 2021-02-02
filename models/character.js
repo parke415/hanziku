@@ -19,7 +19,8 @@ const characterSchema = new Schema({
   readingSK: {type: String},
   readingSJ: {type: String},
   readingJ: {type: String},
-  components: [componentSchema]
+  components: [componentSchema],
+  user: {type: Schema.Types.ObjectId, ref: 'User'}
 });
 
 module.exports = mongoose.model('Character', characterSchema);
