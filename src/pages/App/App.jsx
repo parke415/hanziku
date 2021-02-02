@@ -32,12 +32,14 @@ export default function App() {
   async function handleAddCharacter(newCharacterData) {
     const newCharacter = await charactersAPI.create(newCharacterData);
     setCharacters([...characters, newCharacter]);
+    history.push(`/characters/${newCharacter._id}`);
   }
 
   async function handleUpdateCharacter(updatedCharacterData) {
     const updatedCharacter = await charactersAPI.update(updatedCharacterData);
     const newCharacters = characters.map(character => character._id === updatedCharacter._id ? updatedCharacter : character);
     setCharacters(newCharacters);
+    history.push(`/characters/${updatedCharacter._id}`);
   }
 
   async function handleDeleteCharacter(characterID) {
@@ -71,7 +73,7 @@ export default function App() {
               <CharacterDetailPage characters={characters} handleUpdateCharacter={handleUpdateCharacter} handleDeleteCharacter={handleDeleteCharacter} />
             </Route>
             <Route path="/new">
-              <NewCharacterPage handleAddCharacter={handleAddCharacter} />
+              <NewCharacterPage characters={characters} handleAddCharacter={handleAddCharacter} />
             </Route>
             <Route path="/edit/:id">
               <EditCharacterPage handleUpdateCharacter={handleUpdateCharacter} />

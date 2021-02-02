@@ -1,13 +1,12 @@
 import './EditCharacterPage.css';
 import { useState, useEffect, useRef } from 'react';
-import { Link, useHistory, useParams, useLocation } from 'react-router-dom';
+import { Link, useParams, useLocation } from 'react-router-dom';
 
 export default function EditCharacterPage({ handleUpdateCharacter }) {
   const [formValidity, setFormValidity] = useState(true);
   const [formData, setFormData] = useState(useLocation().state.character);
 
   const formRef = useRef();
-  const history = useHistory();
   const { id } = useParams();
 
   useEffect(() => formRef.current.checkValidity() ? setFormValidity(false) : setFormValidity(true), [formData]);
@@ -15,7 +14,6 @@ export default function EditCharacterPage({ handleUpdateCharacter }) {
   function handleSubmit(evt) {
     evt.preventDefault();
     handleUpdateCharacter(formData);
-    history.push(`/characters/${id}`);
   }
 
   function handleChange(evt) {
@@ -24,12 +22,8 @@ export default function EditCharacterPage({ handleUpdateCharacter }) {
 
   return (
     <>
-      <h1>Edit Character</h1>
+      <h1>Edit Character ({useLocation().state.character.glyph})</h1>
       <form ref={formRef} onSubmit={handleSubmit} autoComplete="off">
-        <div>
-          <label>Character</label>
-          <input onChange={handleChange} name="glyph" value={formData.glyph} required />
-        </div>
         <div>
           <label>Strokes</label>
           <input onChange={handleChange} name="strokes" value={formData.strokes} />

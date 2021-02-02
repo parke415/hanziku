@@ -1,8 +1,8 @@
 import './NewCharacterPage.css';
 import { useState, useEffect, useRef } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
-export default function NewCharacterPage({ handleAddCharacter }) {
+export default function NewCharacterPage({ characters, handleAddCharacter }) {
   const [formValidity, setFormValidity] = useState(true);
   const [formData, setFormData] = useState({
     glyph: '',
@@ -16,19 +16,21 @@ export default function NewCharacterPage({ handleAddCharacter }) {
     readingJ: ''
   });
 
-  const formRef = useRef();
-  const history = useHistory();  
+  const formRef = useRef(); 
 
   useEffect(() => formRef.current.checkValidity() ? setFormValidity(false) : setFormValidity(true), [formData]);
 
   function handleSubmit(evt) {
     evt.preventDefault();
     handleAddCharacter(formData);
-    history.push('/characters/learn');
   }
 
   function handleChange(evt) {
-    setFormData({ ...formData, [evt.target.name]: evt.target.value });
+    if (evt.target.name === 'glyph' && characters.some(character => character.glyph === evt.target.value)) {
+      alert('This character has already been added!');
+    } else {
+      setFormData({ ...formData, [evt.target.name]: evt.target.value });
+    }
   }
 
   return (

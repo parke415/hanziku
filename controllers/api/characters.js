@@ -21,13 +21,7 @@ async function show(req, res) {
 async function create(req, res) {
   req.body.user = req.user._id;
   const newCharacter = await Character.create(req.body);
-  Character.find({user: newCharacter.user, glyph: newCharacter.glyph}, (err, duplicate) => {
-    if (err || duplicate.length) {
-      return console.log('DUPLICATE CHARACTER');
-    } else {
-      res.json(newCharacter);
-    }
-  });
+  res.json(newCharacter);
 }
 
 async function update(req, res) {
