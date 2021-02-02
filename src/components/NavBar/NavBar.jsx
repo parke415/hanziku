@@ -9,31 +9,37 @@ export default function NavBar({ user, setUser, characters }) {
   }
 
   let learnedChars = characters.reduce((learned, character) => character.learned ? ++learned : learned, 0);
+  let unlearnedChars = characters.length - learnedChars;
   let encouragement;
   switch (learnedChars) {
-    case (learnedChars === characters.length && learnedChars.length) && learnedChars:
+    case (learnedChars === characters.length && learnedChars > 0) && learnedChars:
       encouragement = 'Congratulations';
       break;
-    case learnedChars > (characters.length - learnedChars) && learnedChars:
+    case (learnedChars > unlearnedChars) && learnedChars:
       encouragement = 'Doing great';
       break;
-    case (learnedChars === (characters.length - learnedChars) && learnedChars.length) && learnedChars:
+    case (learnedChars === unlearnedChars && learnedChars > 0) && learnedChars:
       encouragement = 'Halfway there';
       break;
-    case learnedChars < (characters.length - learnedChars) && learnedChars:
+    case (learnedChars > 0 && learnedChars < unlearnedChars) && learnedChars:
       encouragement = 'Keep going';
       break;
+    case (learnedChars === 0 && unlearnedChars > 0) && learnedChars:
+      encouragement = 'Start learning';
+      break;
     default:
-      encouragement = 'Welcome';
+      encouragement = 'Get started';
   }
-
+  
   return (
     <nav>
-      <NavLink exact to="/characters/all">Collection ({characters.length})</NavLink>
+      <NavLink exact to="/new">Add</NavLink>
       &nbsp; | &nbsp;
-      <NavLink exact to="/characters/learn">Learn ({characters.length - learnedChars})</NavLink>
+      <NavLink exact to="/characters/learn">Learn ({unlearnedChars})</NavLink>
       &nbsp; | &nbsp;
       <NavLink exact to="/characters/review">Review ({learnedChars})</NavLink>
+      &nbsp; | &nbsp;
+      <NavLink exact to="/characters/all">Collection ({characters.length})</NavLink>
       &nbsp; | &nbsp;
       <span>{encouragement}, {user.name}!</span>
       &nbsp;&nbsp;<Link to="" onClick={handleLogOut}>Log Out</Link>

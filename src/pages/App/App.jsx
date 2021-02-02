@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Route, Switch, Redirect } from 'react-router-dom';
+import { Route, Switch, Redirect, useHistory } from 'react-router-dom';
 import { getUser } from '../../utilities/users-service';
 import './App.css';
 import banner from '../../images/hzk-banner.svg';
@@ -27,6 +27,8 @@ export default function App() {
     }
   }, [user]);
 
+  const history = useHistory();  
+  
   async function handleAddCharacter(newCharacterData) {
     const newCharacter = await charactersAPI.create(newCharacterData);
     setCharacters([...characters, newCharacter]);
@@ -41,6 +43,7 @@ export default function App() {
   async function handleDeleteCharacter(characterID) {
     await charactersAPI.deleteOne(characterID);
     setCharacters(characters.filter(character => character._id !== characterID));
+    history.push('/characters/all');
   }
 
   return (
@@ -59,6 +62,8 @@ export default function App() {
              <Route path="/characters/review">
               <CharacterListPage characters={characters.filter(character => character.learned)} />
             </Route>
+          </Switch>
+          <Switch>
             <Route exact path="/characters">
               <img className= "banner" src={banner} alt="Banner" />
             </Route>
@@ -68,7 +73,7 @@ export default function App() {
             <Route path="/new">
               <NewCharacterPage handleAddCharacter={handleAddCharacter} />
             </Route>
-            <Route path="/edit">
+            <Route path="/edit/:id">
               <EditCharacterPage handleUpdateCharacter={handleUpdateCharacter} />
             </Route>
             <Redirect to="/characters" />

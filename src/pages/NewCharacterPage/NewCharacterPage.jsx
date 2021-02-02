@@ -1,11 +1,12 @@
 import './NewCharacterPage.css';
 import { useState, useEffect, useRef } from 'react';
+import { Link, useHistory } from 'react-router-dom';
 
 export default function NewCharacterPage({ handleAddCharacter }) {
   const [formValidity, setFormValidity] = useState(true);
   const [formData, setFormData] = useState({
     glyph: '',
-    strokes: '0',
+    strokes: '',
     variants: '',
     definition: '',
     readingM: '',
@@ -16,12 +17,14 @@ export default function NewCharacterPage({ handleAddCharacter }) {
   });
 
   const formRef = useRef();
+  const history = useHistory();  
 
   useEffect(() => formRef.current.checkValidity() ? setFormValidity(false) : setFormValidity(true), [formData]);
 
   function handleSubmit(evt) {
     evt.preventDefault();
     handleAddCharacter(formData);
+    history.push('/characters/learn');
   }
 
   function handleChange(evt) {
@@ -34,11 +37,11 @@ export default function NewCharacterPage({ handleAddCharacter }) {
       <form ref={formRef} onSubmit={handleSubmit} autoComplete="off">
         <div>
           <label>Character</label>
-          <input onChange={handleChange} name="glyph" value={formData.glyph} required />
+          <input onChange={handleChange} name="glyph" value={formData.glyph} placeholder="(required)" required />
         </div>
         <div>
           <label>Strokes</label>
-          <input onChange={handleChange} name="strokes" value={formData.strokes} />
+          <input onChange={handleChange} name="strokes" value={formData.strokes} placeholder="(required)" required />
         </div>
         <div>
           <label>Variants</label>
@@ -46,7 +49,7 @@ export default function NewCharacterPage({ handleAddCharacter }) {
         </div>
         <div>
           <label>Meaning</label>
-          <input onChange={handleChange} name="definition" value={formData.definition} />
+          <input onChange={handleChange} name="definition" value={formData.definition} placeholder="(required)" required />
         </div>
         <div>
           <label>Mandarin</label>
@@ -70,6 +73,10 @@ export default function NewCharacterPage({ handleAddCharacter }) {
         </div>
         <button className="btn" type="submit" disabled={formValidity}>Add Entry</button>
       </form>
+      <br />
+      <hr />
+      <br />
+      <Link to='/'>CANCEL</Link>
     </>
   );
 }

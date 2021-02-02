@@ -1,18 +1,21 @@
 import './EditCharacterPage.css';
 import { useState, useEffect, useRef } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useHistory, useParams, useLocation } from 'react-router-dom';
 
 export default function EditCharacterPage({ handleUpdateCharacter }) {
   const [formValidity, setFormValidity] = useState(true);
   const [formData, setFormData] = useState(useLocation().state.character);
 
   const formRef = useRef();
+  const history = useHistory();
+  const { id } = useParams();
 
   useEffect(() => formRef.current.checkValidity() ? setFormValidity(false) : setFormValidity(true), [formData]);
 
   function handleSubmit(evt) {
     evt.preventDefault();
     handleUpdateCharacter(formData);
+    history.push(`/characters/${id}`);
   }
 
   function handleChange(evt) {
@@ -61,6 +64,10 @@ export default function EditCharacterPage({ handleUpdateCharacter }) {
         </div>
         <button className="btn" type="submit" disabled={formValidity}>Update Entry</button>
       </form>
+      <br />
+      <hr />
+      <br />
+      <Link to={{ pathname: `/characters/${id}` }}>CANCEL</Link>
     </>
   );
 }
