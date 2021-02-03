@@ -15,7 +15,7 @@ app.use(logger('dev'));
 app.use(express.json());
 // Configure both serve-favicon & static middleware
 // to serve from the production 'build' folder
-app.use(favicon(path.join(__dirname, 'build', 'hzk-icon.png')));
+app.use(favicon(path.join(__dirname, 'build', 'favicon.ico')));
 app.use(express.static(path.join(__dirname, 'build')));
 
 // Middleware to verify a token and assign the user object of payload
