@@ -39,7 +39,7 @@ export default function NewCharacterPage({ characters, handleAddCharacter }) {
       <form ref={formRef} onSubmit={handleSubmit} autoComplete="off">
         <div>
           <label>Character</label>
-          <input onChange={handleChange} name="glyph" value={formData.glyph} placeholder="(required)" required />
+          <input onChange={handleChange} name="glyph" value={formData.glyph} placeholder="(required)" maxLength="1" required />
         </div>
         <div>
           <label>Strokes</label>

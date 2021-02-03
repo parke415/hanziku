@@ -1,13 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const componentSchema = new Schema({
-  glyph: {type: String, required: true},
-  form: {type: String},
-  role: {type: String, enum: ['semantic', 'phonetic', 'phono-semantic'], required: true},
-  info: {type: String}
-})
-
 const characterSchema = new Schema({
   glyph: {type: String, required: true},
   learned: {type: Boolean, default: false},
@@ -19,7 +12,6 @@ const characterSchema = new Schema({
   readingSK: {type: String},
   readingSJ: {type: String},
   readingJ: {type: String},
-  components: [componentSchema],
   user: {type: Schema.Types.ObjectId, ref: 'User'}
 });
 

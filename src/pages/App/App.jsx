@@ -64,8 +64,6 @@ export default function App() {
              <Route path="/characters/review">
               <CharacterListPage characters={characters.filter(character => character.learned)} />
             </Route>
-          </Switch>
-          <Switch>
             <Route exact path="/characters">
               <img className= "banner" src={banner} alt="Banner" />
             </Route>
