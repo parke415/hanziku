@@ -9,9 +9,12 @@ const characterSchema = new Schema({
   definition: {type: String, required: true},
   readingM: {type: String},
   readingC: {type: String},
-  readingSK: {type: String},
   readingSJ: {type: String},
   readingJ: {type: String},
+  readingSK: {type: String},
+  readingV: {type: String},
+  semantic: {type: String},
+  phonetic: {type: String},
   user: {type: Schema.Types.ObjectId, ref: 'User'}
 });
 

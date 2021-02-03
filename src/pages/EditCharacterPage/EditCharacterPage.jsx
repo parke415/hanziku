@@ -25,16 +25,20 @@ export default function EditCharacterPage({ handleUpdateCharacter }) {
       <h1>Edit Character ({useLocation().state.character.glyph})</h1>
       <form ref={formRef} onSubmit={handleSubmit} autoComplete="off">
         <div>
-          <label>Strokes</label>
-          <input onChange={handleChange} name="strokes" value={formData.strokes} />
+          <label>Meaning</label>
+          <input onChange={handleChange} name="definition" value={formData.definition} />
         </div>
         <div>
           <label>Variants</label>
           <input onChange={handleChange} name="variants" value={formData.variants} />
         </div>
         <div>
-          <label>Meaning</label>
-          <input onChange={handleChange} name="definition" value={formData.definition} />
+          <label>Semantic Component(s)</label>
+          <input onChange={handleChange} name="semantic" value={formData.semantic} />
+        </div>
+        <div>
+          <label>Phonetic Component</label>
+          <input onChange={handleChange} name="phonetic" value={formData.phonetic} />
         </div>
         <div>
           <label>Mandarin</label>
@@ -45,16 +49,20 @@ export default function EditCharacterPage({ handleUpdateCharacter }) {
           <input onChange={handleChange} name="readingC" value={formData.readingC} />
         </div>
         <div>
-          <label>Sino-Korean</label>
-          <input onChange={handleChange} name="readingSK" value={formData.readingSK} />
-        </div>
-        <div>
           <label>Sino-Japanese</label>
           <input onChange={handleChange} name="readingSJ" value={formData.readingSJ} />
         </div>
         <div>
           <label>Japanese</label>
           <input onChange={handleChange} name="readingJ" value={formData.readingJ} />
+        </div>
+        <div>
+          <label>Sino-Korean</label>
+          <input onChange={handleChange} name="readingSK" value={formData.readingSK} />
+        </div>
+        <div>
+          <label>Vietnamese</label>
+          <input onChange={handleChange} name="readingV" value={formData.readingV} />
         </div>
         <button className="btn" type="submit" disabled={formValidity}>Update Entry</button>
       </form>

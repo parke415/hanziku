@@ -3,7 +3,7 @@ const fetch = require('node-fetch');
 const utf8 = require('utf8');
 
 const API_SITE = 'http://ccdb.hemiola.com';
-const API_FIELDS = 'kTotalStrokes,kDefinition,kMandarin,kCantonese,kHangul,kJapaneseOn,kJapaneseKun';
+const API_FIELDS = 'kTotalStrokes,kDefinition,kMandarin,kCantonese,kJapaneseOn,kJapaneseKun,kHangul,kVietnamese';
 
 module.exports = {
   index,
@@ -31,9 +31,10 @@ async function create(req, res) {
   req.body.definition = apiData[0].kDefinition;
   req.body.readingM = apiData[0].kMandarin;
   req.body.readingC = apiData[0].kCantonese;
-  req.body.readingSK = apiData[0].kHangul;
   req.body.readingSJ = apiData[0].kJapaneseOn;
   req.body.readingJ = apiData[0].kJapaneseKun;
+  req.body.readingSK = apiData[0].kHangul;
+  req.body.readingV = apiData[0].kVietnamese;
   const newCharacter = await Character.create(req.body);
   res.json(newCharacter);
 }
