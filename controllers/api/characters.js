@@ -27,24 +27,33 @@ async function create(req, res) {
   req.body.user = req.user._id;
   const charCode = utf8.encode(req.body.glyph);
   const apiData = await fetch(`${API_SITE}/characters/string/${charCode}?fields=${API_FIELDS}`).then(res => res.json());
-  req.body.strokes = apiData[0].kTotalStrokes;
-  req.body.definition = apiData[0].kDefinition;
-  req.body.readingM = apiData[0].kMandarin.toLowerCase().split(' ').join(', ');
-  req.body.readingC = apiData[0].kCantonese.toLowerCase().split(' ').join(', ');
-  req.body.readingSJ = apiData[0].kJapaneseOn.toLowerCase().split(' ').join(', ');
-  req.body.readingJ = apiData[0].kJapaneseKun.toLowerCase().split(' ').join(', ');
-  req.body.readingSK = `${apiData[0].kHangul.split(' ').join(', ')} (${apiData[0].kKorean.toLowerCase().split(' ').join(', ')})`;
-  req.body.readingV = apiData[0].kVietnamese.split(' ').join(', ');
+  req.body.strokes = apiData[0].kTotalStrokes ? apiData[0].kTotalStrokes : '';
+  req.body.definition = apiData[0].kDefinition ? apiData[0].kDefinition : '';
+  req.body.readingM = apiData[0].kMandarin ? apiData[0].kMandarin.toLowerCase().split(' ').join(', ') : '';
+  req.body.readingC = apiData[0].kCantonese ? apiData[0].kCantonese.toLowerCase().split(' ').join(', ') : '';
+  req.body.readingSJ = apiData[0].kJapaneseOn ? apiData[0].kJapaneseOn.toLowerCase().split(' ').join(', ') : '';
+  req.body.readingJ = apiData[0].kJapaneseKun ? apiData[0].kJapaneseKun.toLowerCase().split(' ').join(', ') : '';
+  req.body.readingSK = (apiData[0].kHangul ? apiData[0].kHangul.split(' ').join(', ') : '') + (apiData[0].kKorean ? ` (${apiData[0].kKorean.toLowerCase().split(' ').join(', ')})` : '');
+  req.body.readingV = apiData[0].kVietnamese ? apiData[0].kVietnamese.split(' ').join(', ') : '';
   const newCharacter = await Character.create(req.body);
   res.json(newCharacter);
 }
 
 async function update(req, res) {
-  const updatedCharacter = await Character.findByIdAndUpdate(req.params.id, req.body, { new: true });
-  res.json(updatedCharacter);
+  if (req.body.user === req.user._id) {
+    const updatedCharacter = await Character.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    res.json(updatedCharacter);
+  }
 }
 
 async function deleteOne(req, res) {
-  const deletedCharacter = await Character.findByIdAndRemove(req.params.id);
-  res.json(deletedCharacter);
+  const queuedCharacter = await Character.findById(req.params.id);
+  try {
+    if (queuedCharacter.user.toString() === req.user._id) {
+      const deletedCharacter = await Character.findByIdAndRemove(req.params.id);
+      res.json(deletedCharacter);
+    }
+  } catch {
+    throw new Error("You didn't say the magic word...");
+  }
 }
