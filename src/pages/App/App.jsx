@@ -60,8 +60,8 @@ export default function App() {
             </Route>
             <Route path="/characters/learn">
               <CharacterListPage characters={characters.filter(character => !character.learned)} />
-              </Route>
-             <Route path="/characters/review">
+            </Route>
+            <Route path="/characters/review">
               <CharacterListPage characters={characters.filter(character => character.learned)} />
             </Route>
             <Route exact path="/characters">
