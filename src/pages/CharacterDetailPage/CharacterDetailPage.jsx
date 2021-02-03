@@ -1,4 +1,3 @@
-import './CharacterDetailPage.css';
 import CharacterDetailItem from '../../components/CharacterDetailItem/CharacterDetailItem';
 import { useParams } from 'react-router-dom';
 

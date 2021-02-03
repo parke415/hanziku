@@ -1,4 +1,4 @@
-import './EditCharacterPage.css';
+import '../../stylesheets/sheet.css';
 import { useState, useEffect, useRef } from 'react';
 import { Link, useParams, useLocation } from 'react-router-dom';
 
@@ -21,7 +21,9 @@ export default function EditCharacterPage({ handleUpdateCharacter }) {
   }
 
   return (
-    <>
+    <div className="sheet">
+      <br />
+      <hr />
       <h1>Edit Character ({useLocation().state.character.glyph})</h1>
       <form ref={formRef} onSubmit={handleSubmit} autoComplete="off">
         <div>
@@ -64,12 +66,12 @@ export default function EditCharacterPage({ handleUpdateCharacter }) {
           <label>Vietnamese</label>
           <input onChange={handleChange} name="readingV" value={formData.readingV} />
         </div>
-        <button className="btn" type="submit" disabled={formValidity}>Update Entry</button>
+        <button className="btn" type="submit" disabled={formValidity}>UPDATE</button>
       </form>
       <br />
       <hr />
       <br />
       <Link to={{ pathname: `/characters/${id}` }}>CANCEL</Link>
-    </>
+    </div>
   );
 }

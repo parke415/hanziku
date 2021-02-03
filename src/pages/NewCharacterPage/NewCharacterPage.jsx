@@ -1,4 +1,4 @@
-import './NewCharacterPage.css';
+import '../../stylesheets/sheet.css';
 import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 
@@ -29,7 +29,9 @@ export default function NewCharacterPage({ characters, handleAddCharacter }) {
   }
 
   return (
-    <>
+    <div className="sheet">
+      <br />
+      <hr />
       <h1>New Character</h1>
       <form ref={formRef} onSubmit={handleSubmit} autoComplete="off">
         <div>
@@ -48,12 +50,12 @@ export default function NewCharacterPage({ characters, handleAddCharacter }) {
           <label>Phonetic Component</label>
           <input onChange={handleChange} name="phonetic" value={formData.phonetic} />
         </div>
-        <button className="btn" type="submit" disabled={formValidity}>Add Entry</button>
+        <button className="btn" type="submit" disabled={formValidity}>CREATE</button>
       </form>
       <br />
       <hr />
       <br />
       <Link to='/'>CANCEL</Link>
-    </>
+    </div>
   );
 }

@@ -24,6 +24,7 @@
 }
 
 .detail {
+  text-align: left;
   font-size: 18pt;
 }
 
@@ -34,4 +35,8 @@
 
 .toggle:hover {
   cursor: pointer;
+}
+
+.delete {
+  width: 12%;
 }

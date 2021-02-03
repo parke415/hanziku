@@ -13,22 +13,22 @@ export default function CharacterDetailItem({ character, handleUpdateCharacter, 
       >{character.glyph}</div>
       <div className="subtext">(click to {character.learned ? 'unlearn' : 'learn'})</div>
       <hr />
-      <div className="detail">Strokes: {character.strokes}</div>
-      <div className="detail">Variants: {character.variants}</div>
-      <div className="detail">Meaning: {character.definition}</div>
-      <div className="detail">Mandarin: {character.readingM}</div>
-      <div className="detail">Cantonese: {character.readingC}</div>
-      <div className="detail">Sino-Japanese: {character.readingSJ}</div>
-      <div className="detail">Japanese: {character.readingJ}</div>
-      <div className="detail">Sino-Korean: {character.readingSK}</div>
-      <div className="detail">Vietnamese: {character.readingV}</div>
-      <div className="detail">Semantic Component(s): {character.semantic}</div>
-      <div className="detail">Phonetic Component: {character.phonetic}</div>
+      <div className="detail">{character.strokes ? 'STROKES: ' + character.strokes : ''}</div>
+      <div className="detail">{character.variants ? 'VARIANTS: ' + character.variants : ''}</div>
+      <div className="detail">{character.readingM ? 'MANDARIN: ' + character.readingM : ''}</div>
+      <div className="detail">{character.readingC ? 'CANTONESE: ' + character.readingC : ''}</div>
+      <div className="detail">{character.readingSJ ? 'SINO-JAPANESE: ' + character.readingSJ : ''}</div>
+      <div className="detail">{character.readingJ ? 'JAPANESE: ' + character.readingJ : ''}</div>
+      <div className="detail">{character.readingSK ? 'SINO-KOREAN: ' + character.readingSK : ''}</div>
+      <div className="detail">{character.readingV ? 'VIETNAMESE: ' + character.readingV : ''}</div>
+      <div className="detail">{character.semantic ? 'SEMANTIC: ' + character.semantic : ''}</div>
+      <div className="detail">{character.phonetic ? 'PHONETIC: ' + character.phonetic : ''}</div>
+      <div className="detail">{character.definition ? 'MEANING: ' + character.definition : ''}</div>
       <hr />
       <br />
       <Link to={{ pathname: `/edit/${character._id}`, state: {character} }}>EDIT</Link>
       <br />
-      <button onClick={() => handleDeleteCharacter(character._id)}>DELETE</button>
+      <button className="delete" onClick={() => handleDeleteCharacter(character._id)}>DELETE</button>
     </>
   );
 }

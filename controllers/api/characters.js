@@ -3,7 +3,7 @@ const fetch = require('node-fetch');
 const utf8 = require('utf8');
 
 const API_SITE = 'http://ccdb.hemiola.com';
-const API_FIELDS = 'kTotalStrokes,kDefinition,kMandarin,kCantonese,kJapaneseOn,kJapaneseKun,kHangul,kVietnamese';
+const API_FIELDS = 'kTotalStrokes,kDefinition,kMandarin,kCantonese,kJapaneseOn,kJapaneseKun,kHangul,kVietnamese,kKorean';
 
 module.exports = {
   index,
@@ -29,12 +29,12 @@ async function create(req, res) {
   const apiData = await fetch(`${API_SITE}/characters/string/${charCode}?fields=${API_FIELDS}`).then(res => res.json());
   req.body.strokes = apiData[0].kTotalStrokes;
   req.body.definition = apiData[0].kDefinition;
-  req.body.readingM = apiData[0].kMandarin;
-  req.body.readingC = apiData[0].kCantonese;
-  req.body.readingSJ = apiData[0].kJapaneseOn;
-  req.body.readingJ = apiData[0].kJapaneseKun;
-  req.body.readingSK = apiData[0].kHangul;
-  req.body.readingV = apiData[0].kVietnamese;
+  req.body.readingM = apiData[0].kMandarin.toLowerCase().split(' ').join(', ');
+  req.body.readingC = apiData[0].kCantonese.toLowerCase().split(' ').join(', ');
+  req.body.readingSJ = apiData[0].kJapaneseOn.toLowerCase().split(' ').join(', ');
+  req.body.readingJ = apiData[0].kJapaneseKun.toLowerCase().split(' ').join(', ');
+  req.body.readingSK = `${apiData[0].kHangul.split(' ').join(', ')} (${apiData[0].kKorean.toLowerCase().split(' ').join(', ')})`;
+  req.body.readingV = apiData[0].kVietnamese.split(' ').join(', ');
   const newCharacter = await Character.create(req.body);
   res.json(newCharacter);
 }
